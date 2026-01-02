@@ -1,25 +1,24 @@
-# Library ####
+## Library ####
 
 library(dataverse)
 library(xml2)
 
-# Dirs ####
+## Dirs ####
 
-setwd("C:/Users/vaida/OneDrive - Kaunas University of Technology/DAtA centras/Dataverse/R_scripts/Save_DDI&JSON_files/")
-dir()
+setwd("...") # Set a working directory
 
-# Set general info ----
+# Set general information ----
 
-ddi.api.link <- "https://lida.dataverse.lt/api/datasets/export?exporter=ddi"
-json.api.link <- "https://lida.dataverse.lt/api/datasets/export?exporter=dataverse_json"
-dataset.handle <- "hdl:21.12137/5SAURM"
-dataverse.server <- "https://lida.dataverse.lt"
-saving.dir <- "files/"
+ddi.api.link <- "https://lida.dataverse.lt/api/datasets/export?exporter=ddi" # Link to DDI API access point
+json.api.link <- "https://lida.dataverse.lt/api/datasets/export?exporter=dataverse_json" # Link to JSON API access point
+dataset.pid <- "hdl:21.12137/5SAURM" # PID of a dataset
+dataverse.server <- "https://lida.dataverse.lt" # Server address
+saving.dir <- "files/" # Directory where produced files should be stored
 
-# Get LiDA ID & version ----
+# Get LiDA ID & version of a dataset ----
 
 dataset.info <- 
-  get_dataset(dataset=dataset.handle,
+  get_dataset(dataset=dataset.pid,
               version=":latest-published", # ":draft" (the current draft), ":latest" (the latest draft, if it exists, or the latest published version), ":latest-published" (the latest published version, ignoring any draft), or "x.y" (where x is a major version and y is a minor version; the .y can be omitted to obtain a major version).
               server=dataverse.server)
 
@@ -37,12 +36,12 @@ dataset.lida.version <- paste0(dataset.info$versionNumber,
 # Download: DDI ----
 
 dataset.ddi <- 
-  read_xml(paste0(ddi.api.link,"&persistentId=",dataset.handle))
+  read_xml(paste0(ddi.api.link,"&persistentId=",dataset.pid))
 
 # Download: JSON ----
 
 dataset.json <- 
-  readLines(paste0(json.api.link,"&persistentId=",dataset.handle))
+  readLines(paste0(json.api.link,"&persistentId=",dataset.pid))
 
 # Save ----
 
@@ -64,4 +63,5 @@ writeLines(dataset.json,
                   dataset.lida.version,
                   ".json"))
 
-# End ####
+## End ####
+
