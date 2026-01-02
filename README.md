@@ -1,2 +1,2 @@
-# Download_Dataverse_DDI_and_JSON
-R script for producing DDI (Codebook 2.5) and JSON files from the published dataset for archiving purposes.
+# Downloading DDI and JSON versions of metadata of a dataset
+R script for producing and downloading DDI (Codebook 2.5) and JSON files from a published dataset for archiving purposes.
